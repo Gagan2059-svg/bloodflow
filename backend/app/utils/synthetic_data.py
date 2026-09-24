@@ -3,10 +3,7 @@ import uuid
 from datetime import datetime, timedelta
 from typing import List, Dict, Any
 
-from app.models.organizations import Organization
-from app.models.users import User, UserRole
-from app.models.facilities import Facility
-from app.models.inventory import InventoryUnit
+from app.models.users import UserRole
 from app.domain.compatibility import BloodGroup, ComponentType
 
 def generate_organizations(count: int = 1) -> List[Dict[str, Any]]:
@@ -60,15 +57,15 @@ def generate_inventory(facility_id: uuid.UUID, count: int = 100) -> List[Dict[st
         BloodGroup.A_NEG, BloodGroup.AB_POS, BloodGroup.B_NEG, BloodGroup.AB_NEG
     ]
     # Realistic blood group distribution (US approx)
-    bg_weights = [38, 34, 9, 7, 6, 3, 2, 1] 
-    
+    bg_weights = [38, 34, 9, 7, 6, 3, 2, 1]
+
     components = [ComponentType.RBC, ComponentType.PLASMA, ComponentType.PLATELETS]
     comp_weights = [70, 20, 10]
-    
+
     for _ in range(count):
         bg = random.choices(blood_groups, weights=bg_weights)[0]
         comp = random.choices(components, weights=comp_weights)[0]
-        
+
         # Shelf life
         if comp == ComponentType.RBC:
             days_to_expire = random.randint(1, 42)
@@ -76,10 +73,10 @@ def generate_inventory(facility_id: uuid.UUID, count: int = 100) -> List[Dict[st
             days_to_expire = random.randint(1, 5)
         else:
             days_to_expire = random.randint(10, 365)
-            
+
         collection_date = datetime.utcnow() - timedelta(days=random.randint(1, 10))
         expiration_date = datetime.utcnow() + timedelta(days=days_to_expire)
-        
+
         inventory.append({
             "id": uuid.uuid4(),
             "blood_group": bg,
@@ -97,17 +94,17 @@ def generate_demo_dataset() -> Dict[str, Any]:
     """Generates a complete coherent synthetic dataset for one organization."""
     orgs = generate_organizations(1)
     org_id = orgs[0]["id"]
-    
+
     users = generate_users(org_id, 5)
     facilities = generate_facilities(org_id, 12)
-    
+
     all_inventory = []
     for fac in facilities:
         # Blood banks have more inventory
         count = random.randint(200, 800) if fac["facility_type"] == "BLOOD_BANK" else random.randint(20, 150)
         inv = generate_inventory(fac["id"], count)
         all_inventory.extend(inv)
-        
+
     return {
         "organizations": orgs,
         "users": users,

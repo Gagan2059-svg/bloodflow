@@ -6,7 +6,7 @@ import csv
 import io
 import uuid
 from datetime import datetime
-from typing import List, Optional
+from typing import List
 
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from pydantic import BaseModel
@@ -17,7 +17,6 @@ from app.models.facilities import Facility
 from app.models.inventory import BloodComponent, BloodGroup, InventoryUnit, UnitStatus
 from app.models.operations import AuditLog
 from app.models.users import User
-from app.security.auth import get_current_active_user
 from app.security.rbac import require_manager
 
 router = APIRouter()

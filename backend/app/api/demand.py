@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Query, HTTPException
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 from typing import List, Optional
 import uuid
@@ -28,7 +28,7 @@ class DemandResponse(BaseModel):
     fulfilled_quantity: int
     is_emergency: bool
     recorded_at: datetime
-    
+
     class Config:
         from_attributes = True
 
@@ -48,7 +48,7 @@ def list_demand(
         q = q.filter(DemandRecord.blood_group == blood_group)
     if is_emergency is not None:
         q = q.filter(DemandRecord.is_emergency == is_emergency)
-        
+
     items = q.order_by(DemandRecord.recorded_at.desc()).offset((page - 1) * page_size).limit(page_size).all()
     return items
 

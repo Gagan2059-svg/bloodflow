@@ -24,15 +24,15 @@ def generate_forecasts_task(facility_id: str):
     """
     from app.ml.forecasting import DemandForecaster
     import random
-    
+
     # Mock pulling historical data
     historical = [random.randint(5, 20) for _ in range(30)]
-    
+
     # Generate Forecasts
     naive = DemandForecaster.naive_forecast(historical, horizon=7)
     ma = DemandForecaster.moving_average(historical, window=7, horizon=7)
     ewma = DemandForecaster.exponential_smoothing(historical, alpha=0.3, horizon=7)
-    
+
     return {
         "facility_id": facility_id,
         "status": "completed",

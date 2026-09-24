@@ -65,7 +65,7 @@ def run_optimizer(
 def _run_optimizer_task(org_id: str):
     """Background task: reads real surplus/deficit from DB, calls OR-Tools, saves Recommendations."""
     from app.core.database import SessionLocal
-    from app.models.inventory import InventoryUnit, UnitStatus, BloodComponent, BloodGroup
+    from app.models.inventory import InventoryUnit, UnitStatus
     from app.models.facilities import Facility
     from app.models.operations import DemandRecord
     from app.optimization.transfer import optimize_transfers

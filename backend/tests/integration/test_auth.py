@@ -53,7 +53,7 @@ def test_auth_me(client, db_session):
         headers={"Content-Type": "application/x-www-form-urlencoded"}
     )
     token = login_resp.json()["access_token"]
-    
+
     me_resp = client.get("/api/v1/auth/me", headers={"Authorization": f"Bearer {token}"})
     assert me_resp.status_code == 200
     data = me_resp.json()

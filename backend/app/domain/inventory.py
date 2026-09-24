@@ -1,6 +1,6 @@
 from datetime import datetime, timezone, timedelta
-from typing import List, Dict, Optional
-from app.models.inventory import InventoryUnit, UnitStatus, BloodComponent, BloodGroup
+from typing import List, Dict
+from app.models.inventory import InventoryUnit, UnitStatus, BloodGroup
 
 def calculate_current_inventory(units: List[InventoryUnit]) -> int:
     """Calculates the total number of available units."""
@@ -11,7 +11,7 @@ def identify_expiring_units(units: List[InventoryUnit], days_threshold: int = 3)
     now = datetime.now(timezone.utc)
     threshold_date = now + timedelta(days=days_threshold)
     return [
-        unit for unit in units 
+        unit for unit in units
         if unit.status == UnitStatus.AVAILABLE and unit.expiration_date <= threshold_date
     ]
 
@@ -39,27 +39,27 @@ def calculate_inventory_health_score(
     """
     if total_capacity <= 0:
         return 0
-        
+
     score = 100
-    
+
     # Penalty for dipping below minimum reserve
     if projected_inventory < minimum_reserve:
         deficit = minimum_reserve - projected_inventory
         score -= min(50, deficit * 2)  # Heavy penalty for deficit
-        
+
     # Penalty for excess expiring units
     if current_inventory > 0:
         expiring_ratio = expiring_count / current_inventory
         score -= min(30, int(expiring_ratio * 100))
-        
+
     # Penalty for overcapacity
     if current_inventory > total_capacity:
         score -= 20
-        
+
     # Reward for stable projection
     if projected_inventory >= minimum_reserve and projected_inventory <= total_capacity * 0.8:
         score = min(100, score + 10)
-        
+
     return max(0, score)
 
 def get_inventory_summary_by_group(units: List[InventoryUnit]) -> Dict[BloodGroup, int]:

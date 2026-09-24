@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from typing import Optional
+import os as _os
 
 from app.core.config import settings
 from app.api import facilities, simulations, anomalies, ingestion, events, auth, explain, audit
@@ -22,8 +23,6 @@ def get_event_bus() -> EventBus:
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global event_bus
-    from app.core.database import engine
-    from app.models import Base
 
     # --- Attempt to connect to Redis for real-time events ---
     redis_client: Optional[object] = None
@@ -71,7 +70,6 @@ app = FastAPI(
 )
 
 # OpenTelemetry — only instrument when running as a real server (not during pytest)
-import os as _os
 if _os.getenv("PYTEST_CURRENT_TEST") is None:
     try:
         from opentelemetry import trace

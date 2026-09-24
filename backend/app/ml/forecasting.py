@@ -1,6 +1,4 @@
-from typing import List, Dict, Optional
-from datetime import datetime, timedelta
-import math
+from typing import List
 
 class DemandForecaster:
     """
@@ -27,13 +25,13 @@ class DemandForecaster:
         """
         if not historical_demand:
             return [0.0] * horizon
-        
+
         # Ensure window isn't larger than available data
         window = min(window, len(historical_demand))
-        
+
         recent_data = historical_demand[-window:]
         avg = float(sum(recent_data)) / window
-        
+
         # Simple projection: flat average for the horizon
         return [avg] * horizon
 
@@ -44,12 +42,12 @@ class DemandForecaster:
         """
         if not historical_demand:
             return [0.0] * horizon
-            
+
         # Calculate smoothed series
         smoothed = float(historical_demand[0])
         for val in historical_demand[1:]:
             smoothed = alpha * val + (1 - alpha) * smoothed
-            
+
         return [smoothed] * horizon
 
     @staticmethod
@@ -89,7 +87,7 @@ class DemandForecaster:
 
         predictions = []
         current_window = historical_demand[-7:]
-        
+
         for _ in range(horizon):
             features = [[
                 np.mean(current_window),

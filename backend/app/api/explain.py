@@ -11,7 +11,7 @@ import uuid
 
 from app.core.database import get_db
 from app.models.inventory import InventoryUnit, UnitStatus
-from app.models.operations import Alert, AlertSeverity
+from app.models.operations import Alert
 from app.models.facilities import Facility
 from app.security.auth import get_current_active_user
 from app.models.users import User
@@ -106,7 +106,7 @@ def explain_decision(
                 confidence = 0.85
             else:
                 explanation_parts.append(
-                    f"Stock levels are within acceptable range. No immediate shortage risk detected."
+                    "Stock levels are within acceptable range. No immediate shortage risk detected."
                 )
                 confidence = 0.90
 

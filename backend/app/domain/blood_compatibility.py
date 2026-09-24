@@ -1,5 +1,5 @@
 from app.models.inventory import BloodGroup, BloodComponent
-from typing import List, Dict
+from typing import List
 
 # Standard Donor to Recipient compatibility rules
 # Key is Recipient, Values are Compatible Donors

@@ -101,7 +101,7 @@ def train_forecast_model(
             ModelRegistry.facility_id == facility_uuid,
             ModelRegistry.blood_group == blood_group,
             ModelRegistry.component == component,
-            ModelRegistry.is_active == True,
+            ModelRegistry.is_active,
         ).update({"is_active": False})
 
         # Insert new registry entry

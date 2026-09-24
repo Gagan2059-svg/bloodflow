@@ -51,7 +51,7 @@ def get_current_user(db: Session = Depends(get_db), token: str = Depends(oauth2_
         )
     except JWTError:
         raise credentials_exception
-        
+
     try:
         import uuid
         uid = uuid.UUID(token_data.user_id)

@@ -1,10 +1,9 @@
 """
 Risk API — real shortage/wastage predictions using live inventory data.
 """
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import func
-from typing import Optional, List
 from datetime import datetime, timedelta
 import uuid
 
@@ -91,7 +90,7 @@ def facility_risk_detail(
         raise HTTPException(status_code=404, detail="Facility not found")
 
     now = datetime.utcnow()
-    cutoff = now - timedelta(days=30)
+    now - timedelta(days=30)
 
     # Per blood group breakdown
     breakdown = db.query(

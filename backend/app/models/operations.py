@@ -2,7 +2,7 @@
 Missing domain models: Transfers, Alerts, Recommendations, Audit Logs, Forecasts, Demand.
 """
 from sqlalchemy import String, Integer, Float, DateTime, Boolean, Text, Enum as SQLEnum, ForeignKey, JSON
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column
 from datetime import datetime
 import enum
 import uuid

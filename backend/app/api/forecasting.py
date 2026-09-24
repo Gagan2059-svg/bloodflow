@@ -2,7 +2,7 @@
 Forecasting API — dispatches async Celery tasks for model training,
 fetches persisted models from registry, runs all baseline models on-demand.
 """
-from fastapi import APIRouter, Depends, Query, HTTPException, BackgroundTasks
+from fastapi import APIRouter, Depends, Query, BackgroundTasks
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 from typing import Optional, List
@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 import uuid
 
 from app.core.database import get_db
-from app.models.operations import DemandRecord, Forecast, ModelRegistry
+from app.models.operations import DemandRecord, ModelRegistry
 from app.models.inventory import BloodGroup, BloodComponent
 from app.security.auth import get_current_active_user
 from app.security.rbac import require_manager
@@ -201,7 +201,7 @@ def list_model_registry(
     """Return all active models registered in the Model Registry for this organization."""
     q = db.query(ModelRegistry).filter(
         ModelRegistry.organization_id == current_user.organization_id,
-        ModelRegistry.is_active == True,
+        ModelRegistry.is_active,
     )
     if facility_id:
         q = q.filter(ModelRegistry.facility_id == facility_id)

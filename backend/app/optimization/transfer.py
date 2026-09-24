@@ -15,7 +15,7 @@ class TransferRecommendation(BaseModel):
     expected_impact_score: float
 
 def optimize_transfers(
-    facility_surplus_deficit: Dict[uuid.UUID, int], 
+    facility_surplus_deficit: Dict[uuid.UUID, int],
     distances: Dict[Tuple[uuid.UUID, uuid.UUID], float]
 ) -> List[TransferRecommendation]:
     """

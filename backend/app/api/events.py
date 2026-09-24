@@ -16,11 +16,11 @@ async def event_stream(request: Request):
     Server-Sent Events endpoint.
     Clients connect and receive a real-time stream of BloodFlow domain events
     (inventory updates, alerts, simulation results, anomalies, etc.)
-    
+
     Falls back to keep-alive pings if Redis is not available.
     """
     redis_client = getattr(request.app.state, "redis_client", None)
-    
+
     return StreamingResponse(
         sse_event_generator(redis_client=redis_client),
         media_type="text/event-stream",

@@ -3,16 +3,13 @@ Simulation API endpoints.
 """
 from fastapi import APIRouter
 from pydantic import BaseModel
-from typing import List, Optional
-import uuid
+from typing import List
 
 from app.simulation.engine import (
     SimulationEngine,
     SimulationScenario,
     FacilitySnapshot,
     ScenarioType,
-    SimulationResult,
-    FacilityImpact,
 )
 
 router = APIRouter()
@@ -67,7 +64,7 @@ def run_simulation(body: SimulationRequest):
     """
     Run a what-if scenario against the provided facility snapshots.
     No real inventory is modified — all calculations are in-memory.
-    
+
     Accepts a JSON body with `facilities` (list of FacilitySnapshotIn)
     and `scenario` (ScenarioIn) as the simulation parameters.
     """
